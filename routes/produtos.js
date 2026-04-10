@@ -3,19 +3,19 @@ const router = express.Router();
 let supabase = require('../data/supabase');
 
 router.get('/erro-teste', (req, res) => {
-    throw new Error("O servidor do Haruy Sushi tropeçou!");
+    throw new Error("O servidor da Doceria caiu!");
 });
 
 router.get('/', async (req, res, next) => {
     try{
         const {categoriaId} = req.query;
         let consulta = supabase.from('produtos').select('*');
+
         if (categoriaId){
             consulta = consulta.eq('categoriaId', categoriaId);
         }
+        const {data, error} = await consulta.order('id', {ascending: true});
 
-        const {data, error} = 
-        await consulta.order('id', {ascending: true});
         if (error) throw error;
         res.json(data);
     }catch (err) {
@@ -23,23 +23,23 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', async (req, res) => {
     try{
         const {id} = req.params;
-        const{data, error} = await supabase
+        const{data,error} = await supabase
         .from('produtos')
         .select('*')
         .eq('id', id)
         .maybeSingle();
 
         if (error) throw error;
-        if(data){
+        if(data) {
             res.json(data);
         }else {
-            res.status(404).json({mensagem: 'não encontrado'});
+            res.status(404).json ({mensagem: 'Não encontrado'})
         }
     }catch (err) {
-        next(err);
+        next(err)
     }
 });
 
@@ -53,12 +53,12 @@ router.post('/', async (req, res, next) => {
         if (error) throw error;
         res.status(201).json(data[0]);
     }catch (err) {
-        next(err);
+        next(err); 
     }
 });
 
 router.put('/:id', async (req, res, next) => {
-   try{
+    try{
         const {id} = req.params;
         const {data, error} = await supabase
             .from('produtos')
@@ -69,16 +69,16 @@ router.put('/:id', async (req, res, next) => {
         if (error) throw error;
         if (data && data.length > 0){
             res.json(data[0]);
-        }else{
-            res.status(404).json({mensagem: 'não encontado'});
-        }    
-   }catch (err){
-    next(err);
-   }
+        }else {
+            res.status(404).json({mensagem: 'não encontrado'});
+        }
+    }catch (err){
+        next(err)
+    }
 });
 
 router.delete('/:id', async (req, res, next) => {
-    try {
+    try{
         const {id} = req.params;
         const {error} = await supabase
         .from('produtos')
@@ -87,9 +87,9 @@ router.delete('/:id', async (req, res, next) => {
 
         if(error) throw error;
         res.json({mensagem: 'produto deletado'});
-     }catch (err){
+    }catch (err){
         next(err);
-     }
+    }
 });
 
 module.exports = router;

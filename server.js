@@ -38,10 +38,8 @@
 
 // ─── 1. Importações das Dependências ─────────────────────────
 // express: framework web para criar o servidor e as rotas
+require('dotenv').config();
 const express = require('express');
-
-// cors: permite que o App Mobile (em outro domínio) acesse nossa API
-// Sem CORS, o navegador bloquearia as requisições por segurança!
 const cors = require('cors');
 
 
@@ -84,7 +82,7 @@ app.use(logger);
 // Rota raiz — útil para verificar se o servidor está no ar.
 // Acesse: http://localhost:3000
 app.get('/', (req, res) => {
-    res.json({ mensagem: '🍣 Bem-vindo à API do Sabor Encantado! (Aula 6)' });
+    res.json({ mensagem: '🍞 Bem-vindo à API do Sabor Encantado (Aula 6)' });
 });
 
 
@@ -153,5 +151,6 @@ app.listen(PORTA, () => {
     console.log(`   GET    /api/produtos/erro-teste`);
     console.log('');
 });
+
 
 module.exports = app;

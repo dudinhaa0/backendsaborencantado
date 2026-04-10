@@ -7,12 +7,12 @@ router.get('/', async (req, res, next) => {
         const { data, error } = await supabase
         .from('categorias')
         .select('*')
-        .order('id', { ascending: true });
+        .order('id', {ascending: true});
 
-        if (error){
+    if (error){
         throw error;
-        }
-        res.json(data);
+    }
+    res.json(data);
     }catch (err) {
         next(err);
     }
@@ -25,11 +25,16 @@ router.post('/', async (req, res, next) => {
         .insert([{nome: req.body.nome}])
         .select();
 
-        if (error) throw error;
-        
-        res.status(201).json(data[0]);
+    if (error) throw error;
+    
+    res.status(201).json(data[0]);
     }catch (err) {
         next(err);
     }
 });
+
+
 module.exports = router;
+
+// URL: http://localhost:3000/api/categorias
+// metodos : GET, POST, PUT, DELETE
